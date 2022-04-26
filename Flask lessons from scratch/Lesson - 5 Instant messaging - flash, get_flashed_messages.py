@@ -7,7 +7,7 @@ menu = [{"name" : "Installation", "url": "install-flask"},
         {"name" : "First application", "url": "first-app"},
         {"name" : "Feedback", "url": "contact" }]
 
-app.secret_key = os.environ.get('SECRET_KEY', '.env')
+app.secret_key = os.environ.get('SECRET_KEY', '../.env')
 
 @app.route('/')
 def index():
