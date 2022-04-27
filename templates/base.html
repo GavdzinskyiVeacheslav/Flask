@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
 <link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
 {% block title -%}
 {% if title %}
-    <title>About Flask - {{title}}</title>
+	<title>About Flask - {{title}}</title>
 {% else %}
-    <title>About Flask</title>
+	<title>About Flask</title>
 {% endif %}
 {% endblock %}
 </head>
 <body>
 {% block content -%}
-    {%- block mainmenu -%}
+	{%- block mainmenu -%}
 <ul class="mainmenu">
-    {% for m in menu -%}
-<li><a href="{{m.url}}">{{m.name}}</a></li>
-    {% endfor -%}
+<li><a href="{{url_for('index')}}">Main</a></li>
+<li><a href="{{url_for('addPost')}}">Add post</a></li>
 </ul>
-    {% endblock mainmenu -%}
+	{% endblock mainmenu -%}
 <div class="clear"></div>
 <div class="content">
-    {% if title -%}
+	{% if title -%}
 <h1>{{title}}</h1>
-    {% else -%}
+	{% else -%}
 <h1>About Flask</h1>
-    {% endif -%}
+	{% endif -%}
 {% endblock -%}
 </div>
 </body>
