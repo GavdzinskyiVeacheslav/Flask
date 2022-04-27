@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Flask.db')))
+app.config.update(dict(DATABASE=os.path.join(app.root_path, '../Flask.db')))
 
 def connect_db():
     conn = sqlite3.connect(app.config['DATABASE'])
