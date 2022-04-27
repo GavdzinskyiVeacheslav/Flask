@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-<link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet"/>
-{% block title -%}
-{% if title %}
+	<meta charset="UTF-8">
+	<link type="text/css" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet" />
+	{% block title -%}
+	{% if title %}
 	<title>About Flask - {{title}}</title>
-{% else %}
+	{% else %}
 	<title>About Flask</title>
-{% endif %}
-{% endblock %}
+	{% endif %}
+	{% endblock %}
 </head>
+
 <body>
-{% block content -%}
+	{% block content -%}
 	{%- block mainmenu -%}
-<ul class="mainmenu">
-<li><a href="{{url_for('index')}}">Main</a></li>
-<li><a href="{{url_for('addPost')}}">Add post</a></li>
-</ul>
+	<ul class="mainmenu">
+		{% for p in menu %}
+		<li><a href="{{p.url}}">{{p.title}}</a></li>
+		{% endfor %}
+	</ul>
 	{% endblock mainmenu -%}
-<div class="clear"></div>
-<div class="content">
-	{% if title -%}
-<h1>{{title}}</h1>
-	{% else -%}
-<h1>About Flask</h1>
-	{% endif -%}
-{% endblock -%}
-</div>
+	<div class="clear"></div>
+	<div class="content">
+		{% if title -%}
+		<h1>{{title}}</h1>
+		{% else -%}
+		<h1>About Flask</h1>
+		{% endif -%}
+		{% endblock -%}
+	</div>
 </body>
+
 </html>
