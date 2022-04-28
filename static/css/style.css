@@ -54,6 +54,14 @@ div.content {
 	font-size: 16px;
 }
 
+.form-contact .invalid {
+    background: #FF9898;
+}
+
+.form-contact .invalid-feedback {
+    color: #CC0000;
+}
+
 .flash {padding: 10px;}
 .flash.success {
 	border: 1px solid #21DB56;

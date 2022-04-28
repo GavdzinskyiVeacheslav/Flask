@@ -3,7 +3,7 @@ import os
 from flask import Flask, render_template, request, g, flash, abort, url_for, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 
 # configuration
 from werkzeug.utils import redirect
@@ -13,7 +13,7 @@ from UserLogin import UserLogin
 
 DATABASE = '/tmp/Flask.db'
 DEBUG = True
-SECRET_KEY = os.environ.get('SECRET_KEY', '../.env')
+SECRET_KEY = os.environ.get('SECRET_KEY', '.env')
 MAX_CONTENT_LENGTH = 1024 * 1024
 
 app = Flask(__name__)
@@ -102,23 +102,26 @@ def showPost(alias):
     return render_template('post.html', menu=dbase.getMenu(), title=title, post=post)
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@app.route("/login", methods=["POST", "GET"])
 def login():
+
     if current_user.is_authenticated:
         return redirect(url_for('profile'))
 
     form = LoginForm()
+    form.psw.flags.__delattr__('maxlength')
+    form.psw.flags.__delattr__('minlength')
     if form.validate_on_submit():
         user = dbase.getUserByEmail(form.email.data)
         if user and check_password_hash(user['psw'], form.psw.data):
             userlogin = UserLogin().create(user)
             rm = form.remember.data
             login_user(userlogin, remember=rm)
-            return redirect(request.args.get('next') or url_for('profile'))
+            return redirect(request.args.get("next") or url_for("profile"))
 
-        flash("Invalid username/password pair', 'error'")
+        flash("Invalid username/password pair", "error")
 
-    return render_template('login.html', menu=dbase.getMenu(), title='Authorization', form=form)
+    return render_template("login.html", menu=dbase.getMenu(), title="Authorization", form=form)
 
     # if request.method == 'POST':
     #     user = dbase.getUserByEmail(request.form['email'])
@@ -135,20 +138,20 @@ def login():
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
-    if request.method == "POST":
-        if len(request.form['name']) > 4 and len(request.form['email']) > 4 \
-                and len(request.form['psw']) > 4 and request.form['psw'] == request.form['psw2']:
-            hash = generate_password_hash(request.form['psw'])
-            res = dbase.addUser(request.form['name'], request.form['email'], hash)
-            if res:
-                flash("You have successfully registered", "success")
-                return redirect(url_for('login'))
-            else:
-                flash("Error adding user to DB", "error")
-        else:
-            flash("Fields filled out incorrectly", "error")
 
-    return render_template("register.html", menu=dbase.getMenu(), title="Registration")
+    form = RegisterForm()
+    form.psw.flags.__delattr__('maxlength')
+    form.psw.flags.__delattr__('minlength')
+    if form.validate_on_submit():
+        hash = generate_password_hash(form.psw.data)
+        res = dbase.addUser(form.name.data, form.email.data, hash)
+        if res:
+           flash("You have successfully registered", "success")
+           return redirect(url_for('login'))
+        else:
+            flash("Error adding user to DB", "error")
+
+    return render_template("register.html", menu=dbase.getMenu(), title="Registration", form=form)
 
 
 @app.route('/logout')
