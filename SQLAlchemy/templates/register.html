@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% for cat, msg in get_flashed_messages(True) %}
+<div class="flash {{cat}}">{{msg}}</div>
+{% endfor %}
+<form action="" method="post" class="form-contact">
+<p><label>Name: </label> <input type="text" name="name" value="" required />
+<p><label>Age: </label> <input type="text" name="old" value="" required />
+<p><label>City: </label> <input type="text" name="city" value="" required />
+<p><label>Email: </label> <input type="text" name="email" value="" required />
+<p><label>Password: </label> <input type="password" name="psw" value="" required />
+<p><label>Repeat Password: </label> <input type="password" name="psw2" value="" required />
+<p><input type="submit" value="Sign up" />
+</form>
+{% endblock %}
