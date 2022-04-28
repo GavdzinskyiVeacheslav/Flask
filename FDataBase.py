@@ -42,7 +42,7 @@ class FDataBase:
                 'INSERT INTO posts VALUES(NULL, ?, ?, ?, ?)', (title, text, url, tm))
             self.__db.commit()
         except sqlite3.Error as e:
-            print("Error adding article to database"+str(e))
+            print("Error adding article to DB"+str(e))
             return False
 
         return True
@@ -55,7 +55,7 @@ class FDataBase:
             if res:
                 return res
         except sqlite3.Error as e:
-            print("Error getting article from database "+str(e))
+            print("Error getting article from DB "+str(e))
 
         return (False, False)
 
@@ -67,6 +67,24 @@ class FDataBase:
             if res:
                 return res
         except sqlite3.Error as e:
-            print("Error getting article from database "+str(e))
+            print("Error getting article from DB "+str(e))
 
         return []
+
+    def addUser(self, name, email, hpsw):
+        try:
+            self.__cur.execute(f"SELECT COUNT() as `count` FROM users WHERE email LIKE '{email}'")
+            res = self.__cur.fetchone()
+            if res['count'] > 0:
+                print("User with this email already exists")
+                return False
+
+            tm = math.floor(time.time())
+            self.__cur.execute("INSERT INTO users VALUES(NULL, ?, ?, ?, ?)", (name, email, hpsw, tm))
+            self.__db.commit()
+        except sqlite3.Error as e:
+            print("Error adding user to DB "+str(e))
+            return False
+
+        return True
+

@@ -4,7 +4,7 @@ from flask import Flask, render_template, make_response, url_for, request, sessi
 import os
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY2', '.env')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY2', '../.env')
 app.permanent_session_lifetime = datetime.timedelta(days=10)
 
 @app.route('/')
