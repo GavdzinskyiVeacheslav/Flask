@@ -6,10 +6,11 @@
 <div class="flash {{cat}}">{{msg}}</div>
 {% endfor %}
 <form action="" method="post" class="form-contact">
-<p><label>Email:</label><input type="text" name="email" value="" required />
-<p><label>Password:</label><input type="password" name="psw" value="" required />
-<p><input type="checkbox" name="remainme" /> Remember me
-<p><input type="submit" value="Enter" />
+{{ form.hidden_tag() }}
+<p>{{ form.email.label() }} {{ form.email() }}
+<p>{{ form.psw.label() }} {{ form.psw() }}
+<p>{{ form.remember.label() }} {{ form.remember() }}
+<p>{{ form.submit() }}
 <hr align=left width="300px">
 <p><a href="{{url_for('register')}}">Registration</a>
 </form>
