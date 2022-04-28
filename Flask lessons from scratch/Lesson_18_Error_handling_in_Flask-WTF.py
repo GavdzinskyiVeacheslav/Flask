@@ -13,13 +13,13 @@ from UserLogin import UserLogin
 
 DATABASE = '/tmp/Flask.db'
 DEBUG = True
-SECRET_KEY = os.environ.get('SECRET_KEY', '.env')
+SECRET_KEY = os.environ.get('SECRET_KEY', '../.env')
 MAX_CONTENT_LENGTH = 1024 * 1024
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'Flask.db')))
+app.config.update(dict(DATABASE=os.path.join(app.root_path, '../Flask.db')))
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
