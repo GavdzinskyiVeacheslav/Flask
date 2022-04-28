@@ -83,3 +83,35 @@ ul.list-posts .annonce {
 	margin: 0;
 	padding: 10px 5px 10px 5px;
 }
+
+.profile-ava {
+	width: 130px;
+	text-align: center;
+	overflow: hidden;
+	background: #eee;
+	padding: 10px;
+}
+.profile-ava img {max-width: 150px; height: auto;}
+
+.profile-load {
+	margin-top: 10px;
+	overflow: hidden;
+	max-width: 150px;
+}
+.profile-load input[type=submit], input[type=file] {
+	width: 100%;
+	font-size: 18px;
+}
+.profile-load p {
+	padding: 0;
+	margin: 5px 0 0 0;
+}
+
+.profile-panel {padding: 0 0 0 10px;}
+ul.profile-info {
+	list-style: none;
+	margin: 10px 0 0 0;
+	padding: 0;
+	color: #7E652F;
+}
+ul.profile-info li {margin-top: 10px;}
