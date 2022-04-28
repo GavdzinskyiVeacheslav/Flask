@@ -88,3 +88,31 @@ class FDataBase:
 
         return True
 
+    def getUser(self, user_id):
+        try:
+            self.__cur.execute(f'SELECT * FROM users WHERE id = {user_id} LIMIT 1')
+            res = self.__cur.fetchone()
+            if not res:
+                print('User not found')
+                return False
+
+            return res
+        except sqlite3.Error as e:
+            print("Error adding user to DB "+str(e))
+
+        return False
+
+    def getUserByEmail(self, email):
+        try:
+            self.__cur.execute(f'SELECT * FROM users WHERE email = "{email}" LIMIT 1')
+            res = self.__cur.fetchone()
+            if not res:
+                print("User not found")
+                return False
+
+            return res
+        except sqlite3.Error as e:
+            print("Error adding user to DB " + str(e))
+
+        return False
+
