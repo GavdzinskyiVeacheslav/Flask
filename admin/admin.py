@@ -1,4 +1,6 @@
-from flask import Blueprint, request, url_for, flash, render_template, session
+import sqlite3
+
+from flask import Blueprint, request, url_for, flash, render_template, session, g
 from werkzeug.utils import redirect
 
 admin = Blueprint('admin', __name__, template_folder='templates', static_folder='static')
@@ -13,7 +15,22 @@ def logout_admin():
     session.pop('admin_logged', None)
 
 menu = [{'url': '.index', 'title': 'Control Panel'},
+        {'url': '.listpubs', 'title': 'List articles'},
+        {'url': '.listusers', 'title': 'List users'},
         {'url': '.logout', 'title': 'Exit'}]
+
+db = None
+@admin.before_request
+def before_request():
+    '''Establishing a DB connection before executing a query'''
+    global  db
+    db = g.get('link_db')
+
+@admin.teardown_request
+def teardown_request(request):
+    global db
+    db = None
+    return request
 
 @admin.route('/')
 def index():
@@ -44,3 +61,51 @@ def logout():
     logout_admin()
 
     return redirect(url_for('.login'))
+
+@admin.route('/list-pubs')
+def listpubs():
+    if not isLogged():
+        return redirect(url_for('.login'))
+
+    list = []
+    if db:
+        try:
+            cur = db.cursor()
+            cur.execute(f'SELECT title, text, url FROM posts')
+            list = cur.fetchall()
+        except sqlite3.Error as e:
+            print('Error getting articles from DB ' + str(e))
+
+    return render_template('admin/listpubs.html', title='List of articles', menu=menu, list=list)
+
+@admin.route('/list-users')
+def listusers():
+    if not isLogged():
+        return redirect(url_for('.login'))
+
+    list = []
+    if db:
+        try:
+            cur = db.cursor()
+            cur.execute(f'SELECT name, email FROM users ORDER BY time DESC')
+            list = cur.fetchall()
+        except sqlite3.Error as e:
+            print('Error getting users from DB ' + str(e))
+
+    return render_template('admin/listusers.html', title='List of users', menu=menu, list=list)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
